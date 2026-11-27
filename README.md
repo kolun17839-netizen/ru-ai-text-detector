@@ -11,6 +11,10 @@ The project targets Russian text; the Russian README is the primary one:
 > This is a probabilistic estimate, not proof of authorship. Read the
 > [Limitations](#limitations) section.
 
+## Browser edition for Russian fiction
+
+[Черновик](browser/README.md) runs the v2 model in the browser and checks full chapters in sections. The Russian-language setup guide covers GitHub Pages and the optional ad placement.
+
 ## Overview
 
 Four models behind one interface:

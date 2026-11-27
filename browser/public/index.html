@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Бесплатная проверка русскоязычной художественной прозы. Нейросеть анализирует отрывки или целые главы прямо в браузере.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; frame-src https:; base-uri 'none'; form-action 'none'">
+  <meta name="theme-color" content="#f6f5ee">
+  <title>Черновик — нейродетектор художественной прозы</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <header class="site-header shell">
+    <a class="brand" href="./" aria-label="Черновик — главная"><span class="mark" aria-hidden="true">ч</span>Черновик</a>
+    <a class="header-link" href="#method">О методе <span aria-hidden="true">↘</span></a>
+  </header>
+  <main class="shell">
+    <section class="hero" aria-labelledby="title">
+      <h1 id="title">Нейродетектор<br><em>художественной прозы</em></h1>
+      <p>Проверьте отрывок или целую главу на признаки ИИ‑генерации. Бесплатно, без регистрации.</p>
+    </section>
+
+    <div class="workspace">
+      <section class="card editor" aria-labelledby="editor-title">
+        <div class="card-top">
+          <h2 id="editor-title"><label for="manuscript">Ваш текст</label></h2>
+          <button id="example" type="button" class="subtle">Вставить пример</button>
+        </div>
+        <form id="editor">
+          <textarea id="manuscript" spellcheck="false" placeholder="Вставьте сюда сцену, рассказ или главу…" aria-describedby="input-hint"></textarea>
+          <div class="editor-info">
+            <button type="button" class="subtle file-button" id="file-button"><span aria-hidden="true">↑</span> Загрузить TXT</button>
+            <input id="file" type="file" accept=".txt,text/plain" hidden>
+            <span id="counter" class="counter"></span>
+          </div>
+          <p id="input-hint" class="hint">От 80 слов. До 40 000 знаков за проверку.</p>
+          <p id="status" class="status" role="status" hidden></p>
+          <div class="editor-actions">
+            <button class="primary" id="run" type="submit">Проверить текст <span aria-hidden="true">↗︎</span></button>
+            <button class="subtle clear-button" id="clear" type="button" disabled>Очистить</button>
+          </div>
+        </form>
+        <noscript><p class="hint">Для проверки включите JavaScript в браузере.</p></noscript>
+      </section>
+
+      <section class="card report" aria-labelledby="report-title" id="report">
+        <h2 id="report-title" tabindex="-1">Результат</h2>
+        <div class="report-empty" id="report-empty">
+          <div class="empty-illustration" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <p>После проверки здесь появится карта фрагментов. Откройте любой из них, чтобы посмотреть оценку и перечитать отрывок.</p>
+        </div>
+        <div id="report-data" hidden>
+          <p class="result-head" id="result-head"></p>
+          <p class="hint" id="result-caption"></p>
+          <div id="fragment-map" class="fragment-map" aria-label="Навигация по фрагментам"></div>
+          <div id="fragments" class="fragments"></div>
+        </div>
+      </section>
+    </div>
+
+    <iframe id="ad-slot" title="Реклама" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer" hidden></iframe>
+
+    <details class="method" id="method">
+      <summary>Как читать результат</summary>
+      <div class="method-copy">
+        <p>Модель ruBERT из исходного проекта анализирует текст по фрагментам. Чем выше балл, тем больше сходство с примерами ИИ‑генерации, которые распознаёт модель. Балл относится к конкретному фрагменту. Он не показывает долю ИИ во всей главе.</p>
+        <p>Отдельной проверки точности на художественной прозе пока нет. Модель может ошибаться на диалогах, стилизации и текстах после редактуры. Используйте результат как повод перечитать фрагмент. Он не доказывает авторство.</p>
+        <p>Проверка идёт на вашем устройстве. При первом запуске браузер скачивает файлы модели, около 50 МБ. Текст остаётся в открытой вкладке.</p>
+      </div>
+    </details>
+  </main>
+  <footer class="site-footer shell">
+    <span>Текст остаётся в вашем браузере</span>
+    <a href="https://github.com/kolun17839-netizen/ru-ai-text-detector">Исходный код <span aria-hidden="true">↗︎</span></a>
+  </footer>
+</body>
+</html>
