@@ -1,0 +1,60 @@
+name: Нейродетектор прозы · GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'browser/**'
+      - 'models/v2_calibrator.joblib'
+      - 'models/threshold_v2.json'
+      - 'samples/sample_*.txt'
+      - '.github/workflows/fiction-pages.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fiction-github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: browser/requirements.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: browser/package-lock.json
+      - run: python -m pip install -r browser/requirements.txt
+      - run: python browser/export_model.py
+      - run: npm ci --prefix browser
+      - run: npm run build --prefix browser
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: browser/dist
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - name: Опубликовать сайт
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,17 @@
+{
+  "name": "ru-fiction-detector",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/lora": "5.2.8",
+    "@fontsource-variable/manrope": "5.2.8",
+    "@huggingface/tokenizers": "0.2.0",
+    "onnxruntime-web": "1.24.3"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}
